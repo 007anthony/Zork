@@ -3,17 +3,17 @@ package ch.bbw.zork;
 public class Task {
 
     private String task;
-    private Room startRoom;
+    private Trigger trigger;
     private boolean done;
 
     public Task() {
-        this(null, null);
+        this(null, Trigger.ROOM);
     }
 
-    public Task(String task, Room startRoom) {
+    public Task(String task, Trigger trigger) {
         this.task = task;
-        this.startRoom = startRoom;
         this.done = false;
+        this.trigger = trigger;
     }
 
     public String getTask() {
@@ -24,19 +24,15 @@ public class Task {
         this.task = task;
     }
 
-    public Room getStartRoom() {
-        return startRoom;
-    }
-
-    public void setStartRoom(Room startRoom) {
-        this.startRoom = startRoom;
-    }
-
     public boolean isDone() {
         return done;
     }
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Trigger getTrigger() {
+        return this.trigger;
     }
 }
