@@ -3,17 +3,31 @@ package ch.bbw.zork;
 public class Task {
 
     private String task;
+    private String message;
     private Trigger trigger;
     private boolean done;
+    private Object triggerObject;
 
     public Task() {
-        this(null, Trigger.ROOM);
+        this(null, null, null);
     }
 
-    public Task(String task, Trigger trigger) {
+    public Task(String task, String message, Object triggerObject) {
         this.task = task;
+        this.message = message;
         this.done = false;
-        this.trigger = trigger;
+        this.triggerObject = triggerObject;
+
+        if(triggerObject instanceof Room) {
+            trigger = Trigger.ROOM;
+        }
+        else if(triggerObject instanceof Item) {
+            trigger = Trigger.ITEM;
+        }
+        else {
+            throw new IllegalArgumentException("You provided a object from type " + triggerObject.getClass()
+                    + "but the allowed types are Room and Item");
+        }
     }
 
     public String getTask() {
@@ -22,6 +36,14 @@ public class Task {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public boolean isDone() {
@@ -34,5 +56,13 @@ public class Task {
 
     public Trigger getTrigger() {
         return this.trigger;
+    }
+
+    public Object getTriggerObject() {
+        return this.triggerObject;
+    }
+
+    public void setTriggerObject(Object triggerObject) {
+        this.triggerObject = triggerObject;
     }
 }
