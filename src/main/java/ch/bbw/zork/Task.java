@@ -4,28 +4,26 @@ public class Task {
 
     private String task;
     private String message;
-    private Trigger trigger;
+    private Object trigger;
+
+    private boolean isActive;
     private boolean done;
-    private Object triggerObject;
 
     public Task() {
         this(null, null, null);
     }
 
-    public Task(String task, String message, Object triggerObject) {
+    public Task(String task, String message, Object trigger) {
         this.task = task;
         this.message = message;
         this.done = false;
-        this.triggerObject = triggerObject;
+        this.isActive = true;
 
-        if(triggerObject instanceof Room) {
-            trigger = Trigger.ROOM;
-        }
-        else if(triggerObject instanceof Item) {
-            trigger = Trigger.ITEM;
+        if(trigger instanceof Room || trigger instanceof Item) {
+            this.trigger = trigger;
         }
         else {
-            throw new IllegalArgumentException("You provided a object from type " + triggerObject.getClass()
+            throw new IllegalArgumentException("You provided a object from type " + trigger.getClass()
                     + "but the allowed types are Room and Item");
         }
     }
@@ -46,6 +44,14 @@ public class Task {
         this.message = message;
     }
 
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     public boolean isDone() {
         return done;
     }
@@ -54,15 +60,11 @@ public class Task {
         this.done = done;
     }
 
-    public Trigger getTrigger() {
+    public Object getTrigger() {
         return this.trigger;
     }
 
-    public Object getTriggerObject() {
-        return this.triggerObject;
-    }
-
-    public void setTriggerObject(Object triggerObject) {
-        this.triggerObject = triggerObject;
+    public void setTrigger(Object trigger) {
+        this.trigger = trigger;
     }
 }
