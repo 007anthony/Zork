@@ -1,10 +1,13 @@
-package ch.bbw.zork;
+package ch.bbw.zork.model;
+
+import ch.bbw.zork.TriggerType;
 
 public class Task {
 
     private String task;
     private String message;
     private Object trigger;
+    private TriggerType triggerType;
 
     private boolean isActive;
     private boolean done;
@@ -19,13 +22,7 @@ public class Task {
         this.done = false;
         this.isActive = true;
 
-        if(trigger instanceof Room || trigger instanceof Item) {
-            this.trigger = trigger;
-        }
-        else {
-            throw new IllegalArgumentException("You provided a object from type " + trigger.getClass()
-                    + "but the allowed types are Room and Item");
-        }
+        triggerType = TriggerType.valueOf(this.getClass().getSimpleName().toUpperCase());
     }
 
     public String getTask() {
@@ -66,5 +63,9 @@ public class Task {
 
     public void setTrigger(Object trigger) {
         this.trigger = trigger;
+    }
+
+    public TriggerType getTriggerType() {
+        return triggerType;
     }
 }
