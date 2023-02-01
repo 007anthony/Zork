@@ -9,6 +9,7 @@ import java.util.Optional;
 public class CollectableRepository {
 
     private Collectable[] collectables;
+    private static Collectable[] inventory = new Collectable[8];
 
     public CollectableRepository() {
         Collectable cassette = new Collectable("Cassette", 10, false);
@@ -27,6 +28,10 @@ public class CollectableRepository {
 
     public Collectable[] getAllCollectables() {
         return collectables;
+    }
+
+    public Collectable[] getInventory() {
+        return inventory;
     }
 
 

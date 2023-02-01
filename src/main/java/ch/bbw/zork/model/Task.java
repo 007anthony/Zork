@@ -1,13 +1,10 @@
 package ch.bbw.zork.model;
 
-import ch.bbw.zork.TriggerType;
-
 public class Task {
 
     private String task;
     private String message;
     private Object trigger;
-    private TriggerType triggerType;
 
     private boolean isActive;
     private boolean done;
@@ -19,10 +16,9 @@ public class Task {
     public Task(String task, String message, Object trigger) {
         this.task = task;
         this.message = message;
+        this.trigger = trigger;
         this.done = false;
-        this.isActive = true;
-
-        triggerType = TriggerType.valueOf(this.getClass().getSimpleName().toUpperCase());
+        this.isActive = false;
     }
 
     public String getTask() {
@@ -63,9 +59,5 @@ public class Task {
 
     public void setTrigger(Object trigger) {
         this.trigger = trigger;
-    }
-
-    public TriggerType getTriggerType() {
-        return triggerType;
     }
 }

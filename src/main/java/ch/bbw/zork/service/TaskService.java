@@ -4,6 +4,7 @@ import ch.bbw.zork.model.Task;
 import ch.bbw.zork.repository.TaskRepository;
 
 import javax.swing.text.html.Option;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class TaskService {
@@ -18,8 +19,22 @@ public class TaskService {
         return taskRepository.getAllTasks();
     }
 
+    public Task[] getActiveTasks() {
+        return taskRepository.getActiveTasks()
+                .toArray(Task[]::new);
+    }
+
     public Task getNextTask() {
         Optional<Task> taskOptional = taskRepository.getNextTask();
+        Task task = null;
+        if(taskOptional.isPresent()) {
+            task = taskOptional.get();
+        }
+        for(Task t : getActiveTasks()) {
+            if(!task.getTask().equals(t.getTask())) {
+                return task;
+            }
+        }
         return taskOptional.isPresent()? taskOptional.get(): null;
     }
 
@@ -33,12 +48,25 @@ public class TaskService {
         return taskOptional.isPresent()? taskOptional.get(): null;
     }
 
-    public void activateTask() {
+    public String activateTask(Object trigger) {
         Task nextTask = this.getNextTask();
 
-        if(this.getCurrentTask() == null) {
-            nextTask.setActive(true);
+        if(nextTask != null && nextTask.getTrigger().equals(trigger)) {
+
+            if(this.getCurrentTask() != null) {
+                getCurrentTask().setDone(true);
+            }
+            taskRepository.removeTask(nextTask);
+            taskRepository.addTaskToActive(nextTask);
+            return nextTask.getMessage() + "\n"
+                    + "Task: " + nextTask.getTask();
         }
+
+
+
+
+
+        return null;
     }
 
 

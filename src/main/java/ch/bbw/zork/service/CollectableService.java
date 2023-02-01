@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public class CollectableService {
 
+
+
     private CollectableRepository collectableRepository;
 
     public CollectableService() {
@@ -20,5 +22,27 @@ public class CollectableService {
 
     public Collectable[] getAllCollectables() {
         return collectableRepository.getAllCollectables();
+    }
+
+    public Collectable[] getInventory() {
+        return collectableRepository.getInventory();
+    }
+
+    public Collectable addCollectableToInventory(Collectable collectable) {
+        Collectable[] inventory = getInventory();
+        for(int i = 0; i < inventory.length; i++) {
+            if(inventory[i] == null) {
+                inventory[i] = collectable;
+                return collectable;
+            }
+        }
+
+        return null;
+    }
+
+    public Collectable removeCollectableToInventory(int index) {
+        Collectable collectable = getInventory()[index];
+
+        return collectable;
     }
 }

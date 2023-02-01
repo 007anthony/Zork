@@ -1,6 +1,7 @@
 package ch.bbw.zork.repository;
 
 import ch.bbw.zork.model.Room;
+import ch.bbw.zork.service.RoomService;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -12,6 +13,8 @@ public class RoomRepository {
     private Room[] rooms;
 
     public RoomRepository() {
+
+
         Room entry = new Room("entry", "You are in the entry.");
         Room livingRoom = new Room("living room", "You are in the living room.");
         Room kitchen = new Room("kitchen", "You are in the kitchen.");
@@ -32,7 +35,6 @@ public class RoomRepository {
         secretLab.setExits(null, null, bedroom, null);
 
         rooms = new Room[] {entry, livingRoom, kitchen, lobby, office, bathroom, bedroom, secretLab};
-        currentRoom = entry;
     }
 
     public Room getCurrentRoom() {

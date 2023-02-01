@@ -30,18 +30,18 @@ public class RoomService {
         return roomOptional.isPresent()? roomOptional.get(): null;
     }
 
-    public boolean goRoom(String direction) {
+    public Room goRoom(String direction) {
 
             // Try to leave current room.
             Room nextRoom = getCurrentRoom().nextRoom(direction);
 
             if (nextRoom == null) {
                 System.out.println("There is no door!");
-                return false;
+                return null;
             }
             else {
                 setCurrentRoom(nextRoom);
-                return true;
+                return nextRoom;
             }
     }
 }

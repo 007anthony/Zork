@@ -1,17 +1,19 @@
 package ch.bbw.zork.repository;
 
-import ch.bbw.zork.model.Furniture;
 import ch.bbw.zork.model.Task;
-import ch.bbw.zork.TriggerType;
 import ch.bbw.zork.service.CollectableService;
 import ch.bbw.zork.service.FurnitureService;
 import ch.bbw.zork.service.RoomService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 public class TaskRepository {
+
+    private static List<Task> activeTasks = new ArrayList<>();
 
     private Task[] tasks;
 
@@ -35,6 +37,20 @@ public class TaskRepository {
         return tasks;
     }
 
+    public Task addTaskToActive(Task task) {
+        activeTasks.add(task);
+        return task;
+    }
+
+    public Task removeTask(Task task) {
+        tasks = Arrays.stream(this.tasks).filter(t -> task.getTask().equals(t.getTask())).toArray(Task[]::new);
+        return task;
+    }
+
+    public List<Task> getActiveTasks() {
+        return activeTasks;
+    }
+
     public Optional<Task> getNextTask() {
         return Arrays.stream(tasks)
                 .filter(task -> !task.isActive())
@@ -42,13 +58,13 @@ public class TaskRepository {
     }
 
     public Stream<Task> getFinishedTasks() {
-        return Arrays.stream(tasks)
+        return activeTasks.stream()
                 .filter(task -> task.isDone());
     }
 
     public Optional<Task> getCurrentTask() {
-        return Arrays.stream(tasks)
-                .filter(task -> task.isActive() && !task.isDone())
+        return activeTasks.stream()
+                .filter(task -> !task.isDone())
                 .findFirst();
     }
 }
