@@ -1,13 +1,17 @@
 package ch.bbw.zork.service;
 
+import ch.bbw.zork.model.Collectable;
+import ch.bbw.zork.model.Furniture;
 import ch.bbw.zork.model.Room;
 import ch.bbw.zork.repository.RoomRepository;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RoomService {
 
     private RoomRepository roomRepository;
+    private FurnitureService furnitureService;
 
     public RoomService() {
         roomRepository = new RoomRepository();
@@ -28,6 +32,16 @@ public class RoomService {
     public Room getRoomByName(String name) {
         Optional<Room> roomOptional = roomRepository.getRoomByName(name);
         return roomOptional.isPresent()? roomOptional.get(): null;
+    }
+
+    public Map<Furniture, Collectable> getAllCollectables(Room room) {
+        Map<Furniture, Collectable> collectableMap = new HashMap<>();
+        for(Furniture furniture: furnitureService.getAllFurnituresFromRoom(room)) {
+            for(Collectable collectable : furniture.getCollectables()) {
+                collectableMap.put(furniture, collectable);
+            }
+        }
+        return collectableMap;
     }
 
     public Room goRoom(String direction) {

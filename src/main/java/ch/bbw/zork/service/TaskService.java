@@ -25,17 +25,10 @@ public class TaskService {
     }
 
     public Task getNextTask() {
-        Optional<Task> taskOptional = taskRepository.getNextTask();
-        Task task = null;
-        if(taskOptional.isPresent()) {
-            task = taskOptional.get();
+        if(getActiveTasks().length > 0) {
+            getCurrentTask().setDone(true);
         }
-        for(Task t : getActiveTasks()) {
-            if(!task.getTask().equals(t.getTask())) {
-                return task;
-            }
-        }
-        return taskOptional.isPresent()? taskOptional.get(): null;
+        return getAllTasks()[getActiveTasks().length];
     }
 
 
@@ -51,7 +44,7 @@ public class TaskService {
     public String activateTask(Object trigger) {
         Task nextTask = this.getNextTask();
 
-        if(nextTask != null && nextTask.getTrigger().equals(trigger)) {
+        if(nextTask != null && nextTask.getTrigger() != null && nextTask.getTrigger().equals(trigger)) {
 
             if(this.getCurrentTask() != null) {
                 getCurrentTask().setDone(true);

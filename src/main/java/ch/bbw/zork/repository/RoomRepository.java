@@ -1,10 +1,16 @@
 package ch.bbw.zork.repository;
 
+import ch.bbw.zork.model.Collectable;
+import ch.bbw.zork.model.Furniture;
 import ch.bbw.zork.model.Room;
+import ch.bbw.zork.service.FurnitureService;
 import ch.bbw.zork.service.RoomService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RoomRepository {
 
@@ -12,7 +18,10 @@ public class RoomRepository {
 
     private Room[] rooms;
 
+    private FurnitureService furnitureService;
+
     public RoomRepository() {
+        furnitureService = new FurnitureService();
 
 
         Room entry = new Room("entry", "You are in the entry.");
@@ -34,6 +43,8 @@ public class RoomRepository {
         bedroom.setExits(null, null, null, lobby);
         secretLab.setExits(null, null, bedroom, null);
 
+        office.addFurniture(furnitureService.getFurnitureByName("desk"));
+
         rooms = new Room[] {entry, livingRoom, kitchen, lobby, office, bathroom, bedroom, secretLab};
     }
 
@@ -54,6 +65,9 @@ public class RoomRepository {
     public Room[] getAllRooms() {
         return rooms;
     }
+
+
+
 
 
 }

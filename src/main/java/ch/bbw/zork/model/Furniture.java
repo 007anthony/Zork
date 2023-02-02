@@ -21,6 +21,10 @@ public class Furniture extends Item {
         return this.collectables;
     }
 
+    public void removeCollectable(Collectable collectable) {
+        collectables.remove(collectable);
+    }
+
     public void addCollectable(Collectable collectable) {
         this.collectables.add(collectable);
     }

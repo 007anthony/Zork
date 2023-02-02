@@ -10,6 +10,7 @@ public class CollectableService {
 
 
     private CollectableRepository collectableRepository;
+    private RoomService roomService;
 
     public CollectableService() {
         collectableRepository = new CollectableRepository();
@@ -38,6 +39,20 @@ public class CollectableService {
         }
 
         return null;
+    }
+
+    public Collectable pickUp(Collectable collectable) {
+        roomService.getAllCollectables(roomService.getCurrentRoom()).forEach((key, value) -> {
+            if(value.equals(collectable)) {
+                key.removeCollectable(value);
+                addCollectableToInventory(collectable);
+                if(value.isKey()) {
+                    System.out.println("You won!!!");
+                }
+            }
+
+        });
+        return collectable;
     }
 
     public Collectable removeCollectableToInventory(int index) {

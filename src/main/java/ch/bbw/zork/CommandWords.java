@@ -31,6 +31,16 @@ public class CommandWords {
         taskService.activateTask(collectable);
 
     }
+
+    public void pick(String item) {
+        Collectable collectable = collectableService.getCollectableByName(item);
+        if(collectable != null) {
+            collectableService.pickUp(collectable);
+        }
+        else {
+            System.out.println("I can't find "  + item + " in here.");
+        }
+    }
     public void help() {
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around at Monash Uni, Peninsula Campus.");
@@ -59,7 +69,6 @@ public class CommandWords {
             System.out.println("Please enter a number");
         }
     }
-
     public void inspect(String furnitureName) {
         Furniture furniture = furnitureService.getFurnitureByName(furnitureName);
         System.out.println(taskService.activateTask(furniture));
